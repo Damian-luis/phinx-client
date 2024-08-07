@@ -20,9 +20,13 @@ const SwordAnimation = ({ isVisible, onComplete }) => {
       transition={{ duration: 1 }}
       style={{
         position: 'fixed',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
         zIndex: 1000,
       }}
       onAnimationComplete={onComplete}
@@ -33,3 +37,6 @@ const SwordAnimation = ({ isVisible, onComplete }) => {
 };
 
 export default SwordAnimation;
+
+
+
