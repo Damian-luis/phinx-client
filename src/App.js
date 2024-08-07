@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Grid, Button, Typography } from '@mui/material';
+import { Container, Grid, Button, Typography, useMediaQuery } from '@mui/material';
 import PokemonCard from './components/PokemonCard';
 import BattleCard from './components/BattleCard';
 import useFetchPokemons from './hooks/useFetchPokemons';
 import useBattlePokemon from './hooks/useBattlePokemon';
 import BattleDetailsModal from './components/BattleDetailsModal';
 import WinnerModal from './components/WinnerModal';
+import PokemonCarousel from './components/PokemonCarousel';
 import { playBackgroundMusic, stopBackgroundMusic, playSelectPokemonSound, playBattleStartSound, stopBattleMusic, playVictorySound } from './utils/soundManager';
 
 const App = () => {
@@ -16,9 +17,10 @@ const App = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [winnerModalOpen, setWinnerModalOpen] = useState(false);
   const [winner, setWinner] = useState(null);
+  const isMobile = useMediaQuery('(max-width:600px)');
 
   useEffect(() => {
-    //playBackgroundMusic();
+    playBackgroundMusic();
     return () => stopBackgroundMusic();
   }, []);
 
@@ -32,6 +34,9 @@ const App = () => {
 
   const handleStartBattle = () => {
     if (selectedPokemon && opponentPokemon) {
+      setBattleResult(null); // Reset battle result
+      setWinner(null); // Reset winner state
+      setWinnerModalOpen(false); // Reset winner modal state
       stopBackgroundMusic();
       playBattleStartSound();
       startBattle(selectedPokemon.id, opponentPokemon.id).then(() => {
@@ -42,16 +47,19 @@ const App = () => {
 
   const handleCloseModal = () => {
     setModalOpen(false);
-    const winnerPokemon = battleResult.winnerId === selectedPokemon.id ? selectedPokemon : opponentPokemon;
-    playVictorySound();
-    stopBattleMusic()
-    setWinner(winnerPokemon);
-    setWinnerModalOpen(true);
+    setWinnerModalOpen(false);
+    setWinner(null);
+    playBackgroundMusic(); // Reanudar la música de fondo
   };
 
-  const handleWinnerModalClose = () => {
-    setWinnerModalOpen(false);
-    playBackgroundMusic();
+  const handleBattleComplete = () => {
+    if (!winnerModalOpen) { // Verificamos que el modal de ganador no esté ya abierto
+      const winnerPokemon = battleResult.winnerId === selectedPokemon.id ? selectedPokemon : opponentPokemon;
+      playVictorySound();
+      stopBattleMusic();
+      setWinner(winnerPokemon);
+      setWinnerModalOpen(true);
+    }
   };
 
   return (
@@ -62,20 +70,21 @@ const App = () => {
       <Typography variant="h6" component="div" gutterBottom>
         Select your pokemon
       </Typography>
-      <Grid container spacing={2}>
-        {pokemons.map((pokemon) => (
-          <Grid item xs={2} key={pokemon.id}>
-            <PokemonCard pokemon={pokemon} onSelect={handleSelectPokemon} />
-          </Grid>
-        ))}
-      </Grid>
+      
+      <PokemonCarousel pokemons={pokemons} onSelect={handleSelectPokemon} />
+    
       {selectedPokemon && opponentPokemon && (
-        <div 
-        style={{
-          paddingTop:"50px"
-        }}>
-          <Grid container spacing={2}>
-            <Grid item xs={5}>
+        <div
+          style={{
+            paddingTop: "50px",
+            display: "flex",
+            flexDirection: isMobile ? "column" : "row",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
+          <Grid container spacing={2} direction={isMobile ? "column" : "row"} alignItems="center" style={{ gap: isMobile ? "10px" : "0px" }}>
+            <Grid item xs={5} style={{ width: isMobile ? "80%" : "auto" }}>
               <BattleCard pokemon={selectedPokemon} />
             </Grid>
             <Grid item xs={2}>
@@ -83,7 +92,7 @@ const App = () => {
                 {battleLoading ? 'Battling...' : 'Start Battle'}
               </Button>
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={5} style={{ width: isMobile ? "80%" : "auto" }}>
               <BattleCard pokemon={opponentPokemon} />
             </Grid>
           </Grid>
@@ -94,12 +103,13 @@ const App = () => {
           open={modalOpen}
           onClose={handleCloseModal}
           battleResult={{ ...battleResult, pokemon1: selectedPokemon, pokemon2: opponentPokemon }}
+          onBattleComplete={handleBattleComplete}
         />
       )}
       {winner && (
         <WinnerModal
           open={winnerModalOpen}
-          onClose={handleWinnerModalClose}
+          onClose={handleCloseModal}
           winner={winner}
         />
       )}
@@ -108,3 +118,8 @@ const App = () => {
 };
 
 export default App;
+
+
+
+
+

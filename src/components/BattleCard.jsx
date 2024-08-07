@@ -8,7 +8,7 @@ const BattleCard = ({ pokemon, currentHp }) => (
       height="100"
       image={pokemon.imageUrl}
       alt={pokemon.name}
-      style={{ objectFit: 'contain', width: '150px', height: '150px', margin: 'auto' }}
+      style={{ objectFit: 'contain', width: '150px', height: '200px', margin: 'auto' }}
     />
     <CardContent>
       <Typography variant="h5" component="div">

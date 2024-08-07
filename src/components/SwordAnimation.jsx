@@ -27,7 +27,7 @@ const SwordAnimation = ({ isVisible, onComplete }) => {
       }}
       onAnimationComplete={onComplete}
     >
-      <img src={swordImage} alt="Sword" style={{ width: '200px', height: '200px' }} />
+      <img src={swordImage} alt="Sword" style={{ width: '300px', height: '300px' }} />
     </motion.div>
   );
 };
