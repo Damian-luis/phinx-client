@@ -49,7 +49,8 @@ const Home = () => {
     setModalOpen(false);
     setWinnerModalOpen(false);
     setWinner(null);
-    playBackgroundMusic(); 
+    stopBattleMusic()
+    //playBackgroundMusic(); 
   };
 
   const handleBattleComplete = () => {
