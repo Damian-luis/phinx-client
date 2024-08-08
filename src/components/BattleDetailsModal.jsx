@@ -9,7 +9,6 @@ const BattleDetailsModal = ({ open, onClose, battleResult, onBattleComplete }) =
   const [swordVisible, setSwordVisible] = useState(false);
   const isMobile = useMediaQuery('(max-width:600px)');
 
-  // Definimos turns, pokemon1, pokemon2 fuera del chequeo para evitar el error
   const turns = battleResult ? battleResult.turns : [];
   const pokemon1 = battleResult ? battleResult.pokemon1 : null;
   const pokemon2 = battleResult ? battleResult.pokemon2 : null;
@@ -31,7 +30,7 @@ const BattleDetailsModal = ({ open, onClose, battleResult, onBattleComplete }) =
   useEffect(() => {
     if (!open) {
       stopBattleMusic();
-      playBackgroundMusic(); // Reanudar la música de fondo cuando se cierre el modal de batalla
+      playBackgroundMusic(); 
     }
   }, [open]);
 

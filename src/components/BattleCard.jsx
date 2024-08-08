@@ -22,7 +22,7 @@ const BattleCard = ({ pokemon, currentHp }) => (
           <LinearProgress variant="determinate" value={(currentHp / pokemon.hp) * 100} />
         </Box>
         <Typography variant="body2" color="text.secondary">
-          {currentHp} / {pokemon.hp}
+          {pokemon.hp}
         </Typography>
       </Box>
       <Box display="flex" alignItems="center">

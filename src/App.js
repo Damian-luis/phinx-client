@@ -80,7 +80,8 @@ const App = () => {
             display: "flex",
             flexDirection: isMobile ? "column" : "row",
             alignItems: "center",
-            justifyContent: "center"
+            justifyContent: "center",
+            paddingBottom:"50px"
           }}
         >
           <Grid container spacing={2} direction={isMobile ? "column" : "row"} alignItems="center" style={{ gap: isMobile ? "10px" : "0px" }}>
