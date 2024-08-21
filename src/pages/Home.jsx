@@ -9,6 +9,7 @@ import WinnerModal from '../components/WinnerModal';
 import PokemonCarousel from '../components/PokemonCarousel';
 import { playBackgroundMusic, stopBackgroundMusic, playSelectPokemonSound, playBattleStartSound, stopBattleMusic, playVictorySound } from '../utils/soundManager';
 import FloatingButtonWithDialog from '../components/Fab';
+import combat from "../assets/combat.webp"
 const Home = () => {
   const { pokemons, loading, error } = useFetchPokemons();
   const { startBattle, battleResult, loading: battleLoading, setBattleResult } = useBattlePokemon();
@@ -64,13 +65,53 @@ const Home = () => {
   };
 
   return (
-    <Container>
-      <Typography variant="h4" component="div" gutterBottom>
-        Battle of Pokemon
-      </Typography>
-      <Typography variant="h6" component="div" gutterBottom>
-        Select your pokemon
-      </Typography>
+    <div
+    style={{
+      backgroundImage: `url(${combat})`,
+      backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        minHeight: "100vh",
+        width: "100%",
+        justifyContent: "center", 
+        padding: "16px", 
+       
+    }}>
+      <div style={{ marginBottom: '16px' }}>
+  <Typography
+    variant="h4"
+    component="div"
+    gutterBottom
+    style={{
+      color: 'white',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      padding: '8px',
+      borderRadius: '8px',
+      display: 'inline-block',
+      boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.3)',
+    }}
+  >
+    Battle of Pokemon
+  </Typography>
+</div>
+<div>
+  <Typography
+    variant="h6"
+    component="div"
+    gutterBottom
+    style={{
+      color: 'white',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      padding: '8px',
+      borderRadius: '8px',
+      display: 'inline-block',
+      boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.3)',
+    }}
+  >
+    Select your pokemon
+  </Typography>
+</div>
+
       
       <PokemonCarousel pokemons={pokemons} onSelect={handleSelectPokemon} />
     
@@ -116,7 +157,7 @@ const Home = () => {
         />
       )}
       <FloatingButtonWithDialog />
-    </Container>
+    </div>
   );
 };
 
